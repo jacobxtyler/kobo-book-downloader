@@ -18,6 +18,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      # Required for multi-arch builds on amd64 GitHub runners.
+      # Without this, buildx may fall back to BuildKit's internal QEMU wrapper
+      # (/dev/.buildkit_qemu_emulator) which can fail running Alpine apk triggers.
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+        with:
+          platforms: arm64,amd64
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
