@@ -1,7 +1,6 @@
-version: '3.8'
 services:
   kobodl:
-    image: ghcr.io/subdavis/kobodl:latest
+    image: ghcr.io/jacobxtyler/kobodl:latest
     build:
       context: .
       dockerfile: Dockerfile
@@ -11,7 +10,7 @@ services:
     ports:
       - "5000:5000"
     volumes:
-      # These mappings will be the same for command line and web server
-      - ${HOME}/.config/kobodl.json:/home/kobodl.json
+      # Map config and download dirs to local $HOME/kobodl/
+      - ${HOME}/kobodl/.config:/home/config
       - ${HOME}/kobodl/downloads:/home/downloads
-    command: --config /home/kobodl.json serve -h 0.0.0.0 -p 5000 --output-dir /home/downloads
+    command: --config /home/config/kobodl.json serve -h 0.0.0.0 -p 5000 --output-dir /home/downloads
